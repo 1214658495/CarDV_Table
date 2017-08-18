@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:clickable="true"
+             android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@mipmap/bg_bombbox"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_marginBottom="@dimen/x10"
+            android:layout_marginTop="@dimen/x10"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/x54"
+            android:gravity="center"
+            android:text="提示"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x36"
+            android:visibility="visible"/>
+
+        <ImageView
+            android:layout_width="@dimen/x355"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/line"/>
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/x24"
+            android:paddingBottom="@dimen/x24"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.5"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x28"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/btn_grp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/x10"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/positiveButton"
+                android:layout_width="@dimen/x90"
+                android:layout_height="@dimen/x43"
+                android:layout_marginLeft="@dimen/x47"
+                android:layout_marginRight="@dimen/x40"
+                android:background="@mipmap/bg_dialog_button"
+                android:gravity="center"
+                android:text="确定"
+                android:textSize="@dimen/x25"/>
+
+            <Button
+                android:id="@+id/negativeButton"
+                android:layout_width="@dimen/x90"
+                android:layout_height="@dimen/x43"
+                android:layout_marginLeft="@dimen/x40"
+                android:layout_marginRight="@dimen/x47"
+                android:background="@mipmap/bg_dialog_button"
+                android:gravity="center"
+                android:text="取消"
+                android:textSize="@dimen/x25"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

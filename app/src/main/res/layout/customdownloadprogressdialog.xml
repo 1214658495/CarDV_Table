@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:clickable="true"
+             android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@mipmap/bg_bombbox"
+        android:orientation="vertical">
+
+        <!-- title -->
+
+        <TextView
+            android:id="@+id/progress_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x54"
+            android:layout_marginBottom="@dimen/x10"
+            android:layout_marginTop="@dimen/x10"
+            android:gravity="center"
+            android:text="提示信息"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x36"
+            android:visibility="visible"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/line"/>
+        <!-- Dialog Message -->
+
+        <TextView
+            android:id="@+id/progress_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:lineSpacingMultiplier="1.5"
+            android:textColor="@color/black"
+            android:textSize="@dimen/x28"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/loading"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/progress_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/x26"
+                android:layout_marginStart="@dimen/x20"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x26"/>
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:progressDrawable="@drawable/download_progress"
+            android:layout_height="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/btn_grp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/x10"
+            android:paddingBottom="@dimen/x10">
+
+            <Button
+                android:id="@+id/positiveButton"
+                android:layout_width="@dimen/x90"
+                android:layout_height="@dimen/x43"
+                android:background="@mipmap/bg_dialog_button"
+                android:text="YES"
+                android:textSize="@dimen/x25"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

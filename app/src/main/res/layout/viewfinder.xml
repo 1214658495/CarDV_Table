@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+    <SurfaceView
+        android:id="@+id/videoViewFinder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/iv_photo_focus"
+        android:layout_width="wrap_content"
+        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/photo_focus"/>
+
+    <RelativeLayout
+        android:id="@+id/record_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x422"
+        android:background="@mipmap/bg_thumb">
+
+        <ImageView
+            android:id="@+id/record_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/loading_large"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/isRec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@mipmap/bg_is_rec"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/x20"
+            android:src="@mipmap/rec"/>
+
+
+        <TextView
+            android:id="@+id/textViewRecordTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/x20"
+            android:text="00:00:00"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x25"/>
+    </LinearLayout>
+
+</RelativeLayout>

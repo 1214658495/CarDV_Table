@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="@dimen/x750"
+        android:layout_height="@dimen/x422"
+        android:background="@mipmap/bg_connect" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawablePadding="@dimen/x20"
+            android:drawableTop="@mipmap/icon_wifi"
+            android:gravity="center_horizontal"
+            android:text="WiFi绑定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x36"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginTop="@dimen/x30"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x30" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginTop="@dimen/x30"
+        android:text="请选择WiFi名称和密码，连接行车记录仪"
+        android:textColor="#333333"
+        android:textSize="@dimen/x28" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:layout_marginTop="@dimen/x87"
+        android:background="#bbc0ca" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x87"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
+            android:text="WiFi名称"
+            android:textColor="#888888"
+            android:textSize="@dimen/x30" />
+
+        <TextView
+            android:id="@+id/tv_wifi_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
+            android:text=""
+            android:textColor="#888888"
+            android:textSize="@dimen/x30" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:background="#bbc0ca" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x87"
+        android:background="@color/white"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
+            android:text="密码"
+            android:textColor="#888888"
+            android:textSize="@dimen/x30" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x90"
+            android:hint="在此输入密码"
+            android:password="true"
+            android:textColor="#888888"
+            android:textSize="@dimen/x30" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x1"
+        android:background="#bbc0ca" />
+
+</LinearLayout>

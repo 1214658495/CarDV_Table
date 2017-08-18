@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x90"
+        android:background="@color/rosered">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="测试版"
+            android:textSize="@dimen/x50"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="图库"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x36"/>
+        <TextView
+            android:id="@+id/tv_multichoose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x20"
+            android:visibility="gone"
+            android:text="选择"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x30"/>
+
+        <TextView
+            android:id="@+id/tv_multichoose_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x20"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x30"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/select_operation_menu"
+        android:visibility="gone"
+        android:background="@color/rosered"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_multi_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/rosered"
+            android:text="删除"/>
+
+        <Button
+            android:id="@+id/btn_choose_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/rosered"
+            android:text="全选"/>
+        <Button
+            android:id="@+id/btn_inverse_choose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/rosered"
+            android:layout_weight="1"
+            android:text="反选"/>
+    </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+            <GridView
+                android:id="@+id/photo_gridview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:horizontalSpacing="@dimen/x6"
+                android:numColumns="2"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/x6">
+            </GridView>
+
+
+
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</LinearLayout>

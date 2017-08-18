@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CarDV_Table</string>
+    <string name="invalid_connect_error">The selected connectivity type is not supported"</string>
+</resources>

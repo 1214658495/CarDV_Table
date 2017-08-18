@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x98">
+
+
+        <com.bydauto.car.i_key.cardv_table.custom.SegmentView
+            android:id="@+id/video_segment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+        <RelativeLayout
+            android:id="@+id/video_operation_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/video_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x39"
+                android:src="@mipmap/video_back"/>
+
+            <TextView
+                android:id="@+id/btn_choose_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x35"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/video_back"
+                android:text="全选"
+                android:textSize="@dimen/x33"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_num_file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:text="已选择0个视频"
+                android:textSize="@dimen/x33"
+                android:textColor="@color/red"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_multichoose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x38"
+            android:text="选择"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x33"/>
+
+        <TextView
+            android:id="@+id/tv_multichoose_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x38"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x33"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/select_operation_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/rosered"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/rosered"
+            android:text="删除"
+            android:textColor="@color/white"/>
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_choose_all"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:backgroundTint="@color/rosered"-->
+            <!--android:text="全选"-->
+            <!--android:textColor="@color/white"/>-->
+
+        <Button
+            android:id="@+id/btn_inverse_choose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/rosered"
+            android:text="反选"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y650"
+        android:orientation="vertical">
+
+        <GridView
+            android:id="@+id/nomal_video_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="@dimen/x43"
+            android:numColumns="2"
+            android:paddingEnd="@dimen/x99"
+            android:paddingStart="@dimen/x99"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/y26">
+        </GridView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!--<TextView-->
+    <!--android:id="@+id/empty_list_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="暂无数据"-->
+    <!--android:visibility="gone"/>-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x50"
+        android:src="@mipmap/arrow_down"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y62"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/x18"
+        android:background="@mipmap/bg_download_delete">
+
+        <ImageView
+            android:id="@+id/iv_download"
+            android:padding="@dimen/x10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x82"
+            android:src="@mipmap/icon_download"/>
+
+        <ImageView
+            android:id="@+id/btn_multi_delete"
+            android:padding="@dimen/x10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/iv_download"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x82"
+            android:src="@mipmap/icon_delete"/>
+    </RelativeLayout>
+</LinearLayout>

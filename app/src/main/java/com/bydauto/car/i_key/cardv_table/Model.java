@@ -7,6 +7,7 @@ public class Model {
 	private String time;
 	private String thumbURL = null;
 
+//	{"Leauto_20170719_191757A.MP4":"68157440 bytes|2017-07-19 19:18:40"}
 	public Model(String descriptor) {
 		descriptor = descriptor.replaceAll("[{}\"]", "");
 		// parse the name

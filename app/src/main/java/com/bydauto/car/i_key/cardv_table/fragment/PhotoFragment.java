@@ -479,11 +479,13 @@ public class PhotoFragment extends Fragment implements OnClickListener, OnItemCl
 
     }
 
+    // TODO: 2017/8/22 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (!isMultiChoose) {
             if (null != mListener) {
                 Model item = (Model) parent.getItemAtPosition(position);
+                Log.e(TAG, "onItemClick: 1111"+",item+"+item);
                 filePath = mPWD + item.getName();
                 mListener.onFragmentAction(IFragmentListener.ACTION_PHOTO_DETAIL, item);
             }

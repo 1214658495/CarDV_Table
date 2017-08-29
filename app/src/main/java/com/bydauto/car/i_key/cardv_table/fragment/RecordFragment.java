@@ -152,7 +152,7 @@ public class RecordFragment extends Fragment implements OnClickListener, IMediaP
         options(mediaPlayer);
         try {
             mediaPlayer.setDataSource("rtsp://192.168.42.1/live");
-//            mediaPlayer.setDataSource("rtsp://192.168.169.1/live");
+//            mediaPlayer.setDataSource("/storage/emulated/0/比亚迪行车记录仪/000002AA.MP4");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -11,6 +11,7 @@ import com.bydauto.car.i_key.cardv_table.connect.CmdChannelWIFI;
 import com.bydauto.car.i_key.cardv_table.connect.DataChannel;
 import com.bydauto.car.i_key.cardv_table.connect.DataChannelWIFI;
 import com.bydauto.car.i_key.cardv_table.connect.IChannelListener;
+import com.bydauto.car.i_key.cardv_table.util.ServerConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,8 +79,8 @@ public class RemoteCam implements IChannelListener {
             mCmdChannelWIFI = new CmdChannelWIFI(this);
             mDataChannelWIFI = new DataChannelWIFI(this);
         }
-        setWifiIP("192.168.42.1", 7878, 8787);
-//        setWifiIP("192.168.169.1", 7878, 8787);
+        setWifiIP(ServerConfig.HOST, 7878, 8787);
+//        setWifiIP("192.168.8.6", 7878, 8787);
 
         // if
         // (mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
@@ -675,8 +676,9 @@ public class RemoteCam implements IChannelListener {
                     // }
                     // �г���Ƶ·��
                     if (mVideoFolder == null) {
-                        if (parser.has("video_folder")) {
-                            String val = parser.getString("video_folder");
+//                        if (parser.has("video_folder")) {
+                        if (parser.has("media_folder")) {
+                            String val = parser.getString("media_folder");
                             mVideoFolder = val;
                         }
                         // break;
@@ -694,6 +696,7 @@ public class RemoteCam implements IChannelListener {
                         if (parser.has("photo_folder")) {
                             String val = parser.getString("photo_folder");
                             mPhotoFolder = val;
+//                            mPhotoFolder = "/tmp/SD0/PHOTO";
                         }
                         // break;
                     }

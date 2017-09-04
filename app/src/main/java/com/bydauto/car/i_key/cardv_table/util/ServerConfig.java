@@ -7,4 +7,5 @@ public class ServerConfig {
 
 	public static final String FIRMWARE_INFO_JSON_ADDRESS = SERVER_HOME + "/hm/firmware_update.json";
 	public static final String FIRMWARE_NAME = "MainActivity.apk";
+	public static final String HOST = "192.168.42.1";
 }

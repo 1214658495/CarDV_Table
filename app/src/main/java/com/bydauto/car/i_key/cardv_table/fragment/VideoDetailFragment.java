@@ -31,6 +31,7 @@ import com.bydauto.car.i_key.cardv_table.MainActivity;
 import com.bydauto.car.i_key.cardv_table.Model;
 import com.bydauto.car.i_key.cardv_table.R;
 import com.bydauto.car.i_key.cardv_table.connect.IFragmentListener;
+import com.bydauto.car.i_key.cardv_table.util.ServerConfig;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -67,7 +68,7 @@ public class VideoDetailFragment extends Fragment implements OnClickListener, Su
     private static final int SHOW_PROGRESS = 0;
     private static final int SHOW_CONTROLLER = 1;
 
-    private static final String HOST = "192.168.42.1";
+//    private static final String ServerConfig.HOST = "192.168.8.6";
     private String filePath;
     private IFragmentListener mListener;
 
@@ -146,7 +147,8 @@ public class VideoDetailFragment extends Fragment implements OnClickListener, Su
         currentIndex = playlist.indexOf(currentItem);
         totalIndex = playlist.size();
         mPlaylist = playlist;
-        mPWD = pwd + "/M_video/";
+//        mPWD = pwd + "/M_video/";
+        mPWD = pwd + "/";
         mListPath = pwd;
         filePath = mPWD + currentItem.getName();
     }
@@ -223,7 +225,7 @@ public class VideoDetailFragment extends Fragment implements OnClickListener, Su
 
         mediaPlayer = new IjkMediaPlayer();
         try {
-            mediaPlayer.setDataSource("rtsp://" + HOST + getStreamURL());
+            mediaPlayer.setDataSource("rtsp://" + ServerConfig.HOST + getStreamURL());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -257,13 +259,17 @@ public class VideoDetailFragment extends Fragment implements OnClickListener, Su
 
     private void initView(View view) {
         String nameFile = filePath.replace(mPWD, "");//mingc
-        nameFile = nameFile.substring(nameFile.indexOf('_') + 1, nameFile.indexOf('A'));
-        //yymmdd hhmmss
-        StringBuilder sb = new StringBuilder(nameFile);
-        sb.insert(6, '-').insert(4, '-');//yy-mm-dd
-        sb.insert(sb.indexOf("_") + 3, ':').insert(sb.indexOf("_") + 6, ':').replace(sb.indexOf
-                ("_"), sb.indexOf("_") + 1, " ");
-        video_title.setText(sb);
+        Log.e(TAG, "initView: 11 nameFile 2017-08-29-14-32-20A.MP4"+ nameFile);
+        // TODO: 2017/8/29 仿照下面修改文件名
+//        nameFile = nameFile.substring(nameFile.indexOf('_') + 1, nameFile.indexOf('A'));
+//        //yymmdd hhmmss
+//        StringBuilder sb = new StringBuilder(nameFile);
+//        sb.insert(6, '-').insert(4, '-');//yy-mm-dd
+//        sb.insert(sb.indexOf("_") + 3, ':').insert(sb.indexOf("_") + 6, ':').replace(sb.indexOf
+//                ("_"), sb.indexOf("_") + 1, " ");
+
+//        video_title.setText(sb);
+        video_title.setText(nameFile);
 
         img_pause = (ImageView) view.findViewById(R.id.img_pause);
         img_pause.setOnClickListener(this);
@@ -316,7 +322,10 @@ public class VideoDetailFragment extends Fragment implements OnClickListener, Su
     }
 
     private String getStreamURL() {
-        return filePath.replace("M_video", "S_video").replace("A.MP4", "B.MP4").trim();
+        // TODO: 2017/8/29 代替什么
+        Log.e(TAG, "getStreamURL: 11111filePath前"+ filePath);
+//        return filePath.replace("M_video", "S_video").replace("A.MP4", "B.MP4").trim();
+        return filePath.trim();
     }
 
     private String millisToString(long millis, boolean text) {

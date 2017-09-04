@@ -20,6 +20,7 @@ import com.bydauto.car.i_key.cardv_table.MainActivity;
 import com.bydauto.car.i_key.cardv_table.Model;
 import com.bydauto.car.i_key.cardv_table.R;
 import com.bydauto.car.i_key.cardv_table.connect.IFragmentListener;
+import com.bydauto.car.i_key.cardv_table.util.ServerConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 public class PhotoDetailFragment extends Fragment implements OnClickListener {
 	private static final String TAG = "PhotoDetailFragment";
 	private ImageView img_thumb;
-	private static final String HOST = "http://192.168.42.1";
+//	private static final String ServerConfig.HOST  = "http://192.168.8.6";
 
 	private  String filePath;
 	private IFragmentListener mListener;
@@ -63,11 +64,13 @@ public class PhotoDetailFragment extends Fragment implements OnClickListener {
 
 	public PhotoDetailFragment(ArrayList<Model> playlist, Model currentItem, String pwd) {
 		// filePath = fileName;
+		Log.e(TAG, "PhotoDetailFragment: 11111——new");
 		mCurrentItem = currentItem;
 		currentIndex = playlist.indexOf(currentItem);
 		totalIndex = playlist.size();
 		mPlaylist = playlist;
-		mPWD = pwd + "/M_photo/";
+//		mPWD = pwd + "/M_photo/";
+		mPWD = pwd + "/";
 		mListPath = pwd;
 		filePath = mPWD + currentItem.getName();
 	}
@@ -77,6 +80,7 @@ public class PhotoDetailFragment extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
 			@Nullable Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		Log.e(TAG, "onCreateView: 111111");
 		View view = inflater.inflate(R.layout.fragment_photo_detail, null, false);
 		initView(view);
 		return view;
@@ -150,7 +154,7 @@ public class PhotoDetailFragment extends Fragment implements OnClickListener {
 			public void run() {
 				// TODO Auto-generated method stub
 				String url = filePath.substring(4);
-				String urlpath = HOST + url;
+				String urlpath = "http://" + ServerConfig.HOST  + url;
 				Bitmap bm = getInternetPicture(urlpath);
 				Message msg = new Message();
 				// ��bm������Ϣ��,���͵����߳�

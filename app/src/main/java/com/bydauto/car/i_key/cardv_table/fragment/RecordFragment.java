@@ -27,6 +27,7 @@ import com.bydauto.car.i_key.cardv_table.MainActivity;
 import com.bydauto.car.i_key.cardv_table.R;
 import com.bydauto.car.i_key.cardv_table.RemoteCam;
 import com.bydauto.car.i_key.cardv_table.connect.IFragmentListener;
+import com.bydauto.car.i_key.cardv_table.util.ServerConfig;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -96,6 +97,8 @@ public class RecordFragment extends Fragment implements OnClickListener, IMediaP
 //		if (mPlayingState == STATE_ON)
 //			mVideoView.start();
 //        backupView = view;
+//        mListener.onFragmentAction(IFragmentListener.ACTION_VF_STOP, null);
+//        mListener.onFragmentAction(IFragmentListener.ACTION_VF_START, null);
         return view;
     }
 
@@ -151,7 +154,8 @@ public class RecordFragment extends Fragment implements OnClickListener, IMediaP
         Log.e(TAG,""+ System.currentTimeMillis());
         options(mediaPlayer);
         try {
-            mediaPlayer.setDataSource("rtsp://192.168.42.1/live");
+//            mediaPlayer.setDataSource("rtsp://192.168.42.1/live");
+            mediaPlayer.setDataSource("rtsp://" + ServerConfig.HOST + "/live");
 //            mediaPlayer.setDataSource("/storage/emulated/0/比亚迪行车记录仪/000002AA.MP4");
         } catch (IOException e) {
             e.printStackTrace();
@@ -266,7 +270,7 @@ public class RecordFragment extends Fragment implements OnClickListener, IMediaP
     public void startStreamView() {
 
         isRecIcon.setVisibility(View.VISIBLE);
-//        showTimer();
+        showTimer();
     }
 
     public void stopStreamView() {

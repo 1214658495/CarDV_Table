@@ -35,6 +35,7 @@ import com.bydauto.car.i_key.cardv_table.R;
 import com.bydauto.car.i_key.cardv_table.RemoteCam;
 import com.bydauto.car.i_key.cardv_table.connect.IFragmentListener;
 import com.bydauto.car.i_key.cardv_table.custom.SegmentView;
+import com.bydauto.car.i_key.cardv_table.util.ServerConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +55,6 @@ import java.util.Set;
 public class VideoFragment extends Fragment implements OnItemClickListener, OnRefreshListener,
         SegmentView.onSegmentViewClickListener, View.OnClickListener {
     private final static String TAG = "---->VideoFragment";
-    private final static String HOST = "192.168.42.1";
 
     public int currentSegment = 0;
 
@@ -182,7 +182,8 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
 
         if (mAdapter == null && mRemoteCam.videoFolder() != null) {
 
-            mPWD = mRemoteCam.videoFolder() + "/M_video/";
+//            mPWD = mRemoteCam.videoFolder() + "/M_video/";
+            mPWD = mRemoteCam.videoFolder();  //删除二级文件夹
             listDirContents(mPWD);
         } else {
             showDirContents();
@@ -206,14 +207,17 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
         switch (position) {
             case 0:
                 currentSegment = 0;
+                Log.e(TAG, "onSegmentViewClick: 00000");
                 showNormalVideo();
                 break;
             case 1:
                 currentSegment = 1;
+                Log.e(TAG, "onSegmentViewClick: 11111");
                 showCollisionVideo();
                 break;
             case 2:
                 currentSegment = 2;
+                Log.e(TAG, "onSegmentViewClick: 22222");
                 showPhoto();
             default:
                 break;
@@ -221,13 +225,15 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
     }
 
     public void showNormalVideo() {
+        Log.e(TAG, "showNormalVideo: 1111");
         if (mAdapter != null) {
             mAdapter.clear();
             mAdapter.cancelAllTasks();
         }
 //        mVideoWall.setNumColumns(2);
 //        mVideoWall.setVerticalSpacing(8);
-        mPWD = mRemoteCam.videoFolder() + "/M_video/";
+//        mPWD = mRemoteCam.videoFolder() + "/M_video/";
+        mPWD = mRemoteCam.videoFolder() + "/"; //删除二级文件夹
         listDirContents(mPWD);
         if (isMultiChoose) {
             cancelMultiChoose();
@@ -235,13 +241,15 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
     }
 
     public void showCollisionVideo() {
+        Log.e(TAG, "showCollisionVideo: 1111");
         if (mAdapter != null) {
             mAdapter.clear();
             mAdapter.cancelAllTasks();
         }
 //        mVideoWall.setNumColumns(1);
 //        mVideoWall.setVerticalSpacing(0);
-        mPWD = mRemoteCam.eventFolder() + "/M_video/";
+//        mPWD = mRemoteCam.eventFolder() + "/M_video/";
+        mPWD = mRemoteCam.eventFolder() + "/"; //删除二级文件夹
         listDirContents(mPWD);
         if (isMultiChoose) {
             cancelMultiChoose();
@@ -249,6 +257,7 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
     }
 
     public void showPhoto() {
+        Log.e(TAG, "showPhoto: 11111");
         {
             if (mAdapter != null) {
                 mAdapter.clear();
@@ -256,7 +265,8 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
             }
 //        mVideoWall.setNumColumns(1);
 //        mVideoWall.setVerticalSpacing(0);
-            mPWD = mRemoteCam.photoFolder() + "/M_photo/";
+//            mPWD = mRemoteCam.photoFolder() + "/M_photo/";
+            mPWD = mRemoteCam.photoFolder() + "/";  //删除二级文件夹
             listDirContents(mPWD);
             if (isMultiChoose) {
                 cancelMultiChoose();
@@ -347,20 +357,28 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
                                     FileList);//删除列表
                             for (Model m : FileList) {
                                 if (currentSegment == 0) {
+//                                    mListener.onFragmentAction(IFragmentListener
+//                                            .ACTION_FS_DELETE, mRemoteCam.videoFolder() +
+//                                            "/M_video/" +
+//                                            m.getName());
                                     mListener.onFragmentAction(IFragmentListener
-                                            .ACTION_FS_DELETE, mRemoteCam.videoFolder() +
-                                            "/M_video/" +
+                                            .ACTION_FS_DELETE, mRemoteCam.videoFolder() + "/" +
                                             m.getName());
                                 } else if (currentSegment == 1) {
+//                                    mListener.onFragmentAction(IFragmentListener
+//                                            .ACTION_FS_DELETE, mRemoteCam.eventFolder() +
+//                                            "/M_video/" +
+//                                            m.getName());
                                     mListener.onFragmentAction(IFragmentListener
-                                            .ACTION_FS_DELETE, mRemoteCam.eventFolder() +
-                                            "/M_video/" +
-                                            m.getName());
+                                            .ACTION_FS_DELETE, mRemoteCam.eventFolder() + "/" + m.getName());
                                 } else if (currentSegment == 2) {
+//                                    mListener.onFragmentAction(IFragmentListener
+//                                            .ACTION_FS_DELETE, mRemoteCam.photoFolder() +
+//                                            "/M_photo/" +
+//                                            m.getName());
                                     mListener.onFragmentAction(IFragmentListener
-                                            .ACTION_FS_DELETE, mRemoteCam.photoFolder() +
-                                            "/M_photo/" +
-                                            m.getName());
+                                            .ACTION_FS_DELETE, mRemoteCam.photoFolder() + "/" +
+                                            m.getName());  //删除二级文件夹
                                 }
                             }
 //                        dialog.dismiss();
@@ -500,30 +518,41 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
 
             TextView nameView = (TextView) view.findViewById(R.id.tv_filename);
 
-            int i = model.getName().indexOf('_');
-            int i2 = model.getName().lastIndexOf('_');
-            int i3 = model.getName().indexOf('.');
-            String date = model.getName().substring(i + 1, i2);
-            StringBuilder sb = new StringBuilder(date);
-            sb.insert(6, '-');
-            sb.insert(4, '-');
-            String time = model.getName().substring(i2 + 1, i3 - 1);
-            StringBuilder sb2 = new StringBuilder(time);
-            sb2.insert(4, ':').insert(2, ':');
-            nameView.setText(sb.toString() + "  " + sb2.toString());
-//            nameView.setText(model.getName());
+//            int i = model.getName().indexOf('_');
+//            int i2 = model.getName().lastIndexOf('_');
+//            int i3 = model.getName().indexOf('.');
+//            String date = model.getName().substring(i + 1, i2);
+//            StringBuilder sb = new StringBuilder(date);
+//            sb.insert(6, '-');
+//            sb.insert(4, '-');
+//            String time = model.getName().substring(i2 + 1, i3 - 1);
+//            StringBuilder sb2 = new StringBuilder(time);
+//            sb2.insert(4, ':').insert(2, ':');
+//            nameView.setText(sb.toString() + "  " + sb2.toString());
+//           // nameView.setText(model.getName());
+
+            String mData = model.getName().substring(0, 10);
+            String mTime = model.getName().substring(11, 19);
+            nameView.setText(mData + " " + mTime);
 
             String url;
 
             if (currentSegment == 0) {
-                url = "http://" + HOST + mRemoteCam.videoFolder().substring(4) + "/Thumb/" +
+//                url = "http://" + ServerConfig.HOST + mRemoteCam.videoFolder().substring(4) + "/Thumb/" +
+//                        model.getThumbFileName();
+                url = "http://" + ServerConfig.HOST + mRemoteCam.videoFolder().substring(4) + "/" +
                         model.getThumbFileName();
+//                imageUrl=http://192.168.42.1/SD0/NORMAL/2017-08-30-16-48-20T.JPG
             } else if (currentSegment == 1) {
-                url = "http://" + HOST + mRemoteCam.eventFolder().substring(4) + "/Thumb/" +
+//                url = "http://" + ServerConfig.HOST + mRemoteCam.eventFolder().substring(4) + "/Thumb/" +
+//                        model.getThumbFileName();
+                url = "http://" + ServerConfig.HOST + mRemoteCam.eventFolder().substring(4)+ "/" +
                         model.getThumbFileName();
             } else {
-                url = "http://" + HOST + mRemoteCam.photoFolder().substring(4) + "/Thumb/" +
-                        model.getThumbFileName();
+//                url = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) + "/Thumb/" +
+//                        model.getThumbFileName();
+                url = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4)+ "/" +
+                        model.getThumbFileName();  //删除二级文件夹
             }
             ImageView photo;
             if (currentSegment == 2) {
@@ -562,14 +591,17 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
                     Model model = mArrayList.get(i);
                     String imageUrl;
                     if (currentSegment == 0) {
-                        imageUrl = "http://" + HOST + mRemoteCam.videoFolder().substring(4) +
-                                "/Thumb/" + model.getThumbFileName();
+//                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.videoFolder().substring(4) +
+//                                "/Thumb/" + model.getThumbFileName();
+                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.videoFolder().substring(4) + "/" + model.getThumbFileName();
                     } else if (currentSegment == 1) {
-                        imageUrl = "http://" + HOST + mRemoteCam.eventFolder().substring(4) +
-                                "/Thumb/" + model.getThumbFileName();
+//                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.eventFolder().substring(4) +
+//                                "/Thumb/" + model.getThumbFileName();
+                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.eventFolder().substring(4)+ "/" + model.getThumbFileName();
                     } else {
-                        imageUrl = "http://" + HOST + mRemoteCam.photoFolder().substring(4) +
-                                "/Thumb/" + model.getThumbFileName();
+//                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) +
+//                                "/Thumb/" + model.getThumbFileName();
+                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4)+ "/" + model.getThumbFileName();  //删除二级文件夹
                     }
                     Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
                     if (bitmap == null) {
@@ -633,11 +665,12 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
                 }
                 taskCollection.remove(this);
             }
-
+//如何下载yuv
             private Bitmap downloadBitmap(String imageUrl) {
                 Bitmap bitmap = null;
                 HttpURLConnection con = null;
                 try {
+//                    Log.e(TAG, "downloadBitmap: 1111 tryHttpURLConnection");
                     URL url = new URL(imageUrl);
                     con = (HttpURLConnection) url.openConnection();
                     con.setConnectTimeout(5 * 1000);
@@ -646,6 +679,7 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
                     con.setDoOutput(true);
                     bitmap = BitmapFactory.decodeStream(con.getInputStream());
                 } catch (Exception e) {
+//                    Log.e(TAG, "downloadBitmap: Exception e");
                     e.printStackTrace();
                 } finally {
                     if (con != null) {

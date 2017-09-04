@@ -654,6 +654,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
         mCurrentFrag = mVideoFrag;
     }
 
+//    应该未使用如下函数 即未用到PhotoFragment
     private void showPhotoFrag() {
 
 
@@ -746,7 +747,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
     }
 
     public void showPhotoDetailFrag(Model model) {
-
+        Log.e(TAG, "showPhotoDetailFullFrag: 1111  file  "+ model);
 
         mPhotoDetailFrag = new PhotoDetailFragment(mPlaylist, model, mRemoteCam.photoFolder());
         getFragmentManager().beginTransaction().setCustomAnimations(R.animator
@@ -776,6 +777,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
     }
 
     public void showPhotoDetailFullFrag(Model file) {
+        Log.e(TAG, "showPhotoDetailFullFrag: 1111  file  "+ file);
         mPhotoDetailFullFrag = new PhotoDetailFullFragment(mPlaylist, file, mRemoteCam
                 .photoFolder());
         getFragmentManager().beginTransaction().setTransition(FragmentTransaction
@@ -1108,13 +1110,17 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
         if (hadDownloadedFlag < selectedFilesCount) {
             if (mVideoFrag.currentSegment == 0) {
                 mGetFileName = mRemoteCam.videoFolder() +
-                        "/M_video/" + selectedFiles.get(hadDownloadedFlag).getName();
+                        "/" + selectedFiles.get(hadDownloadedFlag).getName();
+//                        "/M_video/" + selectedFiles.get(hadDownloadedFlag).getName();
             } else if (mVideoFrag.currentSegment == 1) {
                 mGetFileName = mRemoteCam.eventFolder() +
-                        "/M_video/" + selectedFiles.get(hadDownloadedFlag).getName();
+                        "/" + selectedFiles.get(hadDownloadedFlag).getName();
+//                        "/M_video/" + selectedFiles.get(hadDownloadedFlag).getName();
             } else if (mVideoFrag.currentSegment == 2) {
-                mGetFileName = mRemoteCam.photoFolder() +
-                        "/M_photo/" + selectedFiles.get(hadDownloadedFlag).getName();
+//                mGetFileName = mRemoteCam.photoFolder() +
+//                        "/M_photo/" + selectedFiles.get(hadDownloadedFlag).getName();
+                mGetFileName = mRemoteCam.photoFolder() + "/" +
+                         selectedFiles.get(hadDownloadedFlag).getName();//删除二级文件
             }
             String filename = Environment.getExternalStorageDirectory() + "/行车记录仪" + mGetFileName
                     .substring(mGetFileName.lastIndexOf('/'));

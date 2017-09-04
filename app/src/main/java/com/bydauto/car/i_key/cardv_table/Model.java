@@ -1,6 +1,9 @@
 package com.bydauto.car.i_key.cardv_table;
 
+import android.util.Log;
+
 public class Model {
+	private static final String TAG = "Model";
 	private final boolean isDirectory;
 	private int size;
 	private String name;
@@ -19,8 +22,10 @@ public class Model {
 			thumbURL = name.replace("A.MP4", "T.JPG");
 		} else if (name.endsWith("A.JPG")) {
 			thumbURL = name.replace("A.JPG", "T.JPG");
+		} else if (name.endsWith(".JPG")) {    //我加入的一个判断
+			Log.e(TAG, "Model: 1111name" +  name);
+			thumbURL = name;
 		}
-
 		// figure out if this is file or directory
 		isDirectory = name.endsWith("/");
 		if (isDirectory)

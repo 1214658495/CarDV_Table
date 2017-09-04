@@ -36,6 +36,7 @@ import com.bydauto.car.i_key.cardv_table.Model;
 import com.bydauto.car.i_key.cardv_table.R;
 import com.bydauto.car.i_key.cardv_table.RemoteCam;
 import com.bydauto.car.i_key.cardv_table.connect.IFragmentListener;
+import com.bydauto.car.i_key.cardv_table.util.ServerConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +56,7 @@ import java.util.Set;
 public class PhotoFragment extends Fragment implements OnClickListener, OnItemClickListener,
         OnRefreshListener {
     private final static String TAG = "---->PhotoFragment";
-    private final static String HOST = "192.168.42.1";
+//    private final static String ServerConfig.HOST = "192.168.42.1";
 
     private String mPWD;
     private String filePath;
@@ -159,7 +160,8 @@ public class PhotoFragment extends Fragment implements OnClickListener, OnItemCl
 //		mPhotoWall.setEmptyView(tv);
 
         if (mAdapter == null) {// ����ʼ��������
-            mPWD = mRemoteCam.photoFolder() + "/M_photo/"; // ����ͼ��·��
+//            mPWD = mRemoteCam.photoFolder() + "/M_photo/"; // ����ͼ��·��
+            mPWD = mRemoteCam.photoFolder() + "/"; // 删除二级文件夹
             listPicDirContents(mPWD);
         } else {
             showPicDirContents();
@@ -189,10 +191,12 @@ public class PhotoFragment extends Fragment implements OnClickListener, OnItemCl
 //                                            Log.e(TAG, "选中-->" + mRemoteCam.photoFolder() +
 //                                                    "/M_photo/" +
 //                                                    m.getName());
-                                            mListener.onFragmentAction(IFragmentListener
-                                                    .ACTION_FS_DELETE, mRemoteCam.photoFolder() +
-                                                    "/M_photo/" +
-                                                    m.getName());
+//                                            mListener.onFragmentAction(IFragmentListener
+//                                                    .ACTION_FS_DELETE, mRemoteCam.photoFolder() +
+//                                                    "/M_photo/" +
+//                                                    m.getName());
+                                        mListener.onFragmentAction(IFragmentListener
+                                                    .ACTION_FS_DELETE, mRemoteCam.photoFolder() + "/" + m.getName());// 删除二级文件夹
                                     }
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -239,10 +243,13 @@ public class PhotoFragment extends Fragment implements OnClickListener, OnItemCl
     }
 
     public void showPhoto() {
+        Log.e(TAG, "showPhoto: 1111");
         if (mAdapter != null) {
             mAdapter.clear();
             mAdapter.cancelAllTasks();
         }
+
+        // TODO: 2017/8/29 如下到底是不是我屏蔽的？ 应该不是
 //        mPWD = mRemoteCam.photoFolder() + "/M_photo/";
         listPicDirContents(mPWD);
         if (isMultiChoose) {
@@ -356,9 +363,11 @@ public class PhotoFragment extends Fragment implements OnClickListener, OnItemCl
                 cbMultiChoose.setVisibility(View.GONE);
             }
 
-            String url = "http://" + HOST + mRemoteCam.photoFolder().substring(4) + "/Thumb/" +
-                    model.getThumbFileName();
-
+//            String url = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) + "/Thumb/" +
+//                    model.getThumbFileName();
+            String url = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) + "/" +
+                    model.getThumbFileName();   //删除二级文件夹
+            Log.e(TAG, "getView: 11111111  url" + url);
             final ImageView photo = (ImageView) view.findViewById(R.id.pic_photo);
             photo.setTag(url);
             setImageView(url, photo);
@@ -386,11 +395,14 @@ public class PhotoFragment extends Fragment implements OnClickListener, OnItemCl
 
 
         private void loadBitmaps(int firstVisibleItem, int visibleItemCount) {
+            Log.e(TAG, "loadBitmaps: 1111");
             try {
                 for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
                     Model model = mArrayList.get(i);
-                    String imageUrl = "http://" + HOST + mRemoteCam.photoFolder().substring(4) +
-                            "/Thumb/" + model.getThumbFileName();
+//                    String imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) +
+//                            "/Thumb/" + model.getThumbFileName();
+                    String imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) +
+                            "/" + model.getThumbFileName(); //删除二级文件夹
                     Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
                     if (bitmap == null) {
                         BitmapWorkerTask task = new BitmapWorkerTask();
@@ -482,6 +494,7 @@ public class PhotoFragment extends Fragment implements OnClickListener, OnItemCl
     // TODO: 2017/8/22 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.e(TAG, "onItemClick: 1111点击照片");
         if (!isMultiChoose) {
             if (null != mListener) {
                 Model item = (Model) parent.getItemAtPosition(position);

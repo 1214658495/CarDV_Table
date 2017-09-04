@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/bg_photo"
     tools:context="com.bydauto.car.i_key.cardv_table.MainActivity">
-
+<!--如下又未使用-->
     <LinearLayout
         android:id="@+id/menu"
         android:layout_width="match_parent"

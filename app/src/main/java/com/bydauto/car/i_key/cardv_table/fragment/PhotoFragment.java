@@ -234,8 +234,9 @@ public class PhotoFragment extends Fragment implements OnClickListener, OnItemCl
     }
 
     private void listPicDirContents(String path) {
-        if (path != null)
+        if (path != null) {
             mListener.onFragmentAction(IFragmentListener.ACTION_FS_LS, path); // ���ͻ�ȡ��Ŀ����
+        }
     }
 
     private void showPicDirContents() {
@@ -299,8 +300,9 @@ public class PhotoFragment extends Fragment implements OnClickListener, OnItemCl
         }
         Collections.sort(models, new order());
         mPlaylist = models;
-        if (mListener != null)
+        if (mListener != null) {
             mListener.onFragmentAction(IFragmentListener.ACTION_UPDATE_PLAYLIST, mPlaylist);
+        }
         mAdapter = new PicturePhotoWallAdapter(getActivity(), 0, mPlaylist, mPhotoWall);
         showPicDirContents();
     }

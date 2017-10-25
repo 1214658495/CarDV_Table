@@ -171,7 +171,9 @@ public abstract class CmdChannel {
     }
 
     private boolean checkSessionID() {
-        if (!mCheckSessionId || (mSessionId > 0)) return true;
+        if (!mCheckSessionId || (mSessionId > 0)) {
+            return true;
+        }
 
         if (!mAutoStartSession) {
             mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_ERROR_INVALID_TOKEN, null);
@@ -268,7 +270,9 @@ public abstract class CmdChannel {
     }
 
     public synchronized boolean listDir(String dir) {
-        if (!checkSessionID()) return false;
+        if (!checkSessionID()) {
+            return false;
+        }
         mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_START_LS, null);
         return sendRequest("{\"token\":" + mSessionId + ",\"msg_id\":" + AMBA_LS + "," +
                 "\"param\":\"" + dir + " -D -S\"}");
@@ -447,6 +451,8 @@ public abstract class CmdChannel {
                         mListener.onChannelEvent(IChannelListener
                                 .CMD_CHANNEL_ERROR_INVALID_TOKEN, null);
                         return;
+                    default:
+                        break;
                 }
 
                 switch (msgId) {
@@ -454,7 +460,9 @@ public abstract class CmdChannel {
                         str = parser.getString("param");
                         Pattern p = Pattern.compile("\\d+");
                         Matcher m = p.matcher(str);
-                        if (m.find()) mSessionId = Integer.parseInt(m.group(0));
+                        if (m.find()) {
+                            mSessionId = Integer.parseInt(m.group(0));
+                        }
                         mListener.onChannelEvent(IChannelListener
                                 .CMD_CHANNEL_EVENT_START_SESSION, mSessionId);
                         if (rval == 0) {
@@ -511,6 +519,8 @@ public abstract class CmdChannel {
                         }
                         break;
                     case AMBA_GET_THUMB:
+                        // TODO: 2017/9/4 这里打印出返回的数据！ 解析pases
+                        Log.e(TAG, "handleResponse: 11111 parser= "+ parser);
                         mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_GET_THUMB,
                                 parser);
                         break;
@@ -525,8 +535,9 @@ public abstract class CmdChannel {
                     case AMBA_GET_MEDIAINFO:
                         str = (!parser.has("thumb_file")) ? "" : "thumb: " + parser.getString
                                 ("thumb_file");
-                        if (parser.has("duration"))
+                        if (parser.has("duration")) {
                             str += "\nduration: " + parser.getString("duration");
+                        }
                         str += "\nresolution: " + parser.getString("resolution") + "\nsize: " +
                                 parser.getString("size") + "\ndate: " + parser.getString("date") +
                                 "\ntype: " + parser.getString("media_type");
@@ -588,6 +599,8 @@ public abstract class CmdChannel {
                         mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_STOP_RECORD,
                                 null);
                         break;
+                    default:
+                        break;
                 }
             } catch (JSONException e) {
                 Log.e(CommonUtility.LOG_TAG, "JSON Error: " + e.getMessage());
@@ -600,7 +613,9 @@ public abstract class CmdChannel {
                 String msg;
                 while (true) {
                     msg = readFromChannel();
-                    if (msg == null) break;
+                    if (msg == null) {
+                        break;
+                    }
 
                     // continue to read until we got a valid
                     // JSON message

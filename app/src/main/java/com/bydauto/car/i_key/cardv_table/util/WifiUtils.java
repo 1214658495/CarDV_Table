@@ -108,8 +108,9 @@ public class WifiUtils {
 					e1.printStackTrace();
 				}
 				String currSSID = getCurrentWifiInfo().getSSID();
-				if (currSSID != null)
+				if (currSSID != null) {
 					currSSID = currSSID.replace("\"", "");
+				}
 				int currIp = getCurrentWifiInfo().getIpAddress();
 				if (currSSID != null && currSSID.equals(ssid) && currIp != 0) {
 					isSuccess = true;

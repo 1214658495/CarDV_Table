@@ -86,6 +86,10 @@ public class RemoteCam implements IChannelListener {
         // (mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
         // mCmdChannelBLE = new CmdChannelBLE(this);
     }
+//我自己加的
+    public DataChannel getDataChannel() {
+        return mDataChannel;
+    }
 
     public void reset() {
         Log.e(TAG, "resset");
@@ -96,7 +100,9 @@ public class RemoteCam implements IChannelListener {
         mEventFolder = null;
         mPhotoFolder = null;
         mfDataChannelConnected = false;
-        if (mCmdChannel != null) mCmdChannel.reset();
+        if (mCmdChannel != null) {
+            mCmdChannel.reset();
+        }
     }
 
     public RemoteCam setWifiIP(String host, int cmdPort, int dataPort) {
@@ -134,7 +140,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.syncTime();
             }
         });
@@ -144,7 +152,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.checkState();
             }
         });
@@ -154,7 +164,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.checkMicState();
             }
         });
@@ -170,6 +182,8 @@ public class RemoteCam implements IChannelListener {
                         WifiManager mgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
                         CmdChannelWIFI.wakeup(mgr, cmd, 7877, 7877);
                         break;
+                    default:
+                        break;
                 }
             }
         });
@@ -179,7 +193,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.standBy();
             }
         });
@@ -189,7 +205,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.startSession();
                 if (mVideoFolder == null || mEventFolder == null || mPhotoFolder == null) {
                     mCmdChannel.getDevInfo();
@@ -202,7 +220,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.stopSession();
             }
         });
@@ -212,7 +232,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.getAllSettings();
             }
         });
@@ -221,8 +243,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel())
+                if (!connectToCmdChannel()) {
                     return;
+                }
                 mCmdChannel.getSingleSetting(type);
             }
         });
@@ -231,7 +254,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.getSettingOptions(setting);
             }
         });
@@ -241,7 +266,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.setSetting(setting);
             }
         });
@@ -251,7 +278,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.listDir(path);
             }
         });
@@ -261,7 +290,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.deleteFile(path);
             }
         });
@@ -271,7 +302,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.burnFW(path);
             }
         });
@@ -281,7 +314,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.setZoom(type, level);
             }
         });
@@ -291,7 +326,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mZoomInfoType = type;
                 mCmdChannel.getZoomInfo(type);
             }
@@ -302,7 +339,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.setBitRate(bitRate);
             }
         });
@@ -311,15 +350,19 @@ public class RemoteCam implements IChannelListener {
     public void getThumb(final String path) {
         int pos = path.lastIndexOf('/');
         mGetFileName = path.substring(pos + 1, path.length()) + ".thumb";
-        Log.e(TAG, "getThumb path=" + path + "\ngetThumb mGetFileName=" + mGetFileName);
+//        mGetFileName = path.substring(pos + 1, path.length());
+//        Log.e(TAG, "getThumb path=" + path + "\ngetThumb mGetFileName=" + mGetFileName);
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
-                int len = path.length();
-                String surfix = path.substring(len - 3, len).toLowerCase();
-                String type = surfix.equals("jpg") ? "thumb" : "IDR";
-                mCmdChannel.getThumb(path, type);
+                if (!connectToCmdChannel() || !connectToDataChannel()) {
+                    return;
+                }
+//                int len = path.length();
+//                String surfix = path.substring(len - 3, len).toLowerCase();
+//                String type = surfix.equals("jpg") ? "thumb" : "IDR";
+//                mCmdChannel.getThumb(path, "thumb");
+                mCmdChannel.getThumb(path, "thumb");
             }
         });
     }
@@ -330,7 +373,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel() || !connectToDataChannel()) return;
+                if (!connectToCmdChannel() || !connectToDataChannel()) {
+                    return;
+                }
                 mCmdChannel.getFile(path);
             }
         });
@@ -340,7 +385,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel() || !connectToDataChannel()) return;
+                if (!connectToCmdChannel() || !connectToDataChannel()) {
+                    return;
+                }
 
                 mListener.onChannelEvent(IChannelListener.DATA_CHANNEL_EVENT_PUT_MD5, null);
                 File file = new File(srcFile);
@@ -355,8 +402,9 @@ public class RemoteCam implements IChannelListener {
                     }
                     byte[] hash = md.digest();
                     StringBuilder sb = new StringBuilder();
-                    for (byte b : hash)
+                    for (byte b : hash) {
                         sb.append(String.format("%02x", b & 0xff));
+                    }
                     md5 = sb.toString();
                     in.close();
                 } catch (Exception e) {
@@ -376,7 +424,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.getInfo(path);
             }
         });
@@ -386,7 +436,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.setMediaAttribute(path, flag);
             }
         });
@@ -396,7 +448,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.cancelGetFile(path);
                 mDataChannel.cancelGetFile();
             }
@@ -407,7 +461,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 int xfer_size = mDataChannel.cancelPutFile();
                 mCmdChannel.cancelPutFile(path, xfer_size);
             }
@@ -418,7 +474,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.resetViewfinder();
             }
         });
@@ -428,7 +486,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.stopViewfinder();
             }
         });
@@ -438,7 +498,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.getRecordTime();
             }
         });
@@ -448,7 +510,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.getBatteryLevel();
             }
         });
@@ -458,7 +522,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.takePhoto();
             }
         });
@@ -468,7 +534,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.stopPhoto();
             }
         });
@@ -478,7 +546,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.startRecord();
             }
         });
@@ -488,7 +558,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.stopRecord();
             }
         });
@@ -498,7 +570,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.startMic();
             }
         });
@@ -508,7 +582,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.stopMic();
             }
         });
@@ -519,7 +595,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.forceSplit();
             }
         });
@@ -529,7 +607,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.formatSD(slot);
             }
         });
@@ -539,8 +619,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel())
+                if (!connectToCmdChannel()) {
                     return;
+                }
                 mCmdChannel.defaultSetting();
             }
         });
@@ -551,8 +632,12 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
-                if (!mCmdChannel.getNumFiles("photo")) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
+                if (!mCmdChannel.getNumFiles("photo")) {
+                    return;
+                }
                 mCmdChannel.getNumFiles("video");
                 mCmdChannel.getNumFiles("total");
                 mCmdChannel.getSpace("free");
@@ -566,7 +651,9 @@ public class RemoteCam implements IChannelListener {
         worker.execute(new Runnable() {
             @Override
             public void run() {
-                if (!connectToCmdChannel()) return;
+                if (!connectToCmdChannel()) {
+                    return;
+                }
                 mCmdChannel.sendRequest(command);
             }
         });
@@ -610,6 +697,7 @@ public class RemoteCam implements IChannelListener {
         JSONObject parser;
         int size;
         String path;
+        String md5;
 
         switch (type) {
             case IChannelListener.CMD_CHANNEL_EVENT_GET_THUMB:
@@ -617,17 +705,35 @@ public class RemoteCam implements IChannelListener {
                 try {
                     if (parser.getInt("rval") != 0) {
                         mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_SHOW_ALERT,
-								"GET_THUMB failed");
+                                "GET_THUMB failed");
                         break;
                     }
-                    size = parser.getInt("size");
-                    path = Environment.getExternalStoragePublicDirectory(Environment
-							.DIRECTORY_DOWNLOADS) + "/" + mGetFileName;
-                    Log.e(TAG, "onChannelEvent path=" + path + "\nonChannelEvent size=" + size);
-                    mDataChannel.getFile(path, size);
+                    else {
+                        mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_GET_THUMB_TEST,true);
+                    }
+
+//                    File cacheDir = getDiskCacheDir(mContext, "yuvThumb");
+//                    if (!cacheDir.exists()) {
+//                        cacheDir.mkdirs();
+//                    }
+//                    // TODO: 2017/9/4 在对得到的缩略图数据进行处理
+//                    size = parser.getInt("size");
+//                    md5 = parser.getString("md5sum");
+////                    path = Environment.getExternalStoragePublicDirectory(Environment
+////							.DIRECTORY_DOWNLOADS) + "/" + mGetFileName;
+//                    path = cacheDir + "/" + mGetFileName;
+//                    Log.e(TAG, "onChannelEvent path=" + path + "\nonChannelEvent size=" + size);
+//
+//                    File file = new File(mGetFileName);
+//                    if (!file.exists()) {
+//                        mDataChannel.getYuvFile(path, size, md5);
+//                    }
+//                    mDataChannel.getFile(path, size);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+//                Log.e(TAG, "onChannelEvent:CMD_CHANNEL_EVENT_GET_THUMB:but do nothing");
                 break;
             case IChannelListener.CMD_CHANNEL_EVENT_GET_FILE:
                 size = Integer.parseInt((String) param);
@@ -654,9 +760,13 @@ public class RemoteCam implements IChannelListener {
                 break;
             case IChannelListener.CMD_CHANNEL_EVENT_GET_NUM_FILES:
                 mMediaInfoStep++;
-                if (mMediaInfoStep == 1) mMediaInfoReply += "\nPhoto Files: ";
-                else if (mMediaInfoStep == 2) mMediaInfoReply += "\nVideo Files: ";
-                else mMediaInfoReply += "\nTotal Files: ";
+                if (mMediaInfoStep == 1) {
+                    mMediaInfoReply += "\nPhoto Files: ";
+                } else if (mMediaInfoStep == 2) {
+                    mMediaInfoReply += "\nVideo Files: ";
+                } else {
+                    mMediaInfoReply += "\nTotal Files: ";
+                }
                 mMediaInfoReply += (String) param;
                 break;
             case IChannelListener.CMD_CHANNEL_EVENT_GET_DEVINFO:
@@ -736,7 +846,9 @@ public class RemoteCam implements IChannelListener {
                     Iterator<?> keys = parser.keys();
                     while (keys.hasNext()) {
                         String key = (String) keys.next();
-                        if (key.equals("rval") || key.equals("msg_id")) continue;
+                        if (key.equals("rval") || key.equals("msg_id")) {
+                            continue;
+                        }
                         mMediaInfoReply += "\n" + key + ": " + parser.getString(key);
                     }
                     mListener.onChannelEvent(type, mMediaInfoReply);
@@ -749,13 +861,17 @@ public class RemoteCam implements IChannelListener {
                 mListener.onChannelEvent(type, mZoomInfoType, (String) param);
                 break;
             default:
-                if (mListener != null) mListener.onChannelEvent(type, param);
+                if (mListener != null) {
+                    mListener.onChannelEvent(type, param);
+                }
         }
     }
 
     private boolean connectToCmdBLE() {
         // check if we are connected already
-        if (mBlueAddrRequested.equals(mBlueAddrConnected)) return true;
+        if (mBlueAddrRequested.equals(mBlueAddrConnected)) {
+            return true;
+        }
 
         // try to connect
         if (mCmdChannelBLE.connectTo(mBlueAddrRequested)) {
@@ -770,7 +886,9 @@ public class RemoteCam implements IChannelListener {
 
     private boolean connectToCmdWIFI() {
         // check if we are connected already
-        if (mWifiSSIDRequested.equals(mWifiSSIDConnected)) return true;
+        if (mWifiSSIDRequested.equals(mWifiSSIDConnected)) {
+            return true;
+        }
         mWifiSSIDConnected = null;
 
         // check if we can connect to cmd channel
@@ -783,7 +901,9 @@ public class RemoteCam implements IChannelListener {
     }
 
     private boolean connectToDataWIFI() {
-        if (mfDataChannelConnected) return true;
+        if (mfDataChannelConnected) {
+            return true;
+        }
 
         // check if we can connect to data channel
         mCmdChannel.setClntInfo("TCP", mWifiIpAddr);
@@ -845,6 +965,20 @@ public class RemoteCam implements IChannelListener {
             }
         }
         return getConnectedIp;
+    }
+
+    /**
+     * 根据传入的uniqueName获取硬盘缓存的路径地址。
+     */
+    public File getDiskCacheDir(Context context, String uniqueName) {
+        String cachePath;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            cachePath = context.getExternalCacheDir().getPath();
+        } else {
+            cachePath = context.getCacheDir().getPath();
+        }
+        return new File(cachePath + File.separator + uniqueName);
     }
 
 }

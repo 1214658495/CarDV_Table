@@ -1,7 +1,5 @@
 package com.bydauto.car.i_key.cardv_table;
 
-import android.util.Log;
-
 public class Model {
 	private static final String TAG = "Model";
 	private final boolean isDirectory;
@@ -11,7 +9,9 @@ public class Model {
 	private String thumbURL = null;
 
 //	{"Leauto_20170719_191757A.MP4":"68157440 bytes|2017-07-19 19:18:40"}
+//	[{"2017-09-13-16-31-27.MP4":"188743680 bytes|2017-09-13 16:33:26"},{"2017-09-13-16-35-27.MP4":"188743680 bytes|2017-09-13 16:37:26"}]
 	public Model(String descriptor) {
+//		Log.e(TAG, "Model: 11111 descriptor=" + descriptor);
 		descriptor = descriptor.replaceAll("[{}\"]", "");
 		// parse the name
 		int index = descriptor.indexOf(':');
@@ -23,13 +23,17 @@ public class Model {
 		} else if (name.endsWith("A.JPG")) {
 			thumbURL = name.replace("A.JPG", "T.JPG");
 		} else if (name.endsWith(".JPG")) {    //我加入的一个判断
-			Log.e(TAG, "Model: 1111name" +  name);
+//			Log.e(TAG, "Model: 1111name" +  name);
+			thumbURL = name;
+		} else if (name.endsWith(".MP4")) {    //我加入的二个判断
+//			Log.e(TAG, "Model: 1111name" +  name);
 			thumbURL = name;
 		}
 		// figure out if this is file or directory
 		isDirectory = name.endsWith("/");
-		if (isDirectory)
+		if (isDirectory) {
 			name = name.substring(0, name.length() - 2);
+		}
 
 		if (descriptor.contains("|")) {
 			// get the size

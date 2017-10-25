@@ -346,15 +346,21 @@ public class VideoDetailFragment extends Fragment implements OnClickListener, Su
         DecimalFormat format2 = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         format2.applyPattern("000");
         if (text) {
-            if (millis > 0) time = (negative ? "-" : "") + hours + "h" + format.format(min) + "min";
-            else if (min > 0) time = (negative ? "-" : "") + min + "min";
-            else time = (negative ? "-" : "") + sec + "s";
+            if (millis > 0) {
+                time = (negative ? "-" : "") + hours + "h" + format.format(min) + "min";
+            } else if (min > 0) {
+                time = (negative ? "-" : "") + min + "min";
+            } else {
+                time = (negative ? "-" : "") + sec + "s";
+            }
         } else {
-            if (millis > 0)
+            if (millis > 0) {
                 time = (negative ? "-" : "") + hours + ":" + format.format(min) + ":" + format
                         .format(sec);
-                // + ":" + format2.format(mini_sec);
-            else time = (negative ? "-" : "") + min + ":" + format.format(sec);
+            }// + ":" + format2.format(mini_sec);
+            else {
+                time = (negative ? "-" : "") + min + ":" + format.format(sec);
+            }
             // + ":"+ format2.format(mini_sec);
         }
         return time;

@@ -42,13 +42,15 @@ public class CmdChannelBT extends CmdChannel {
 
 	private boolean openConnection() {
 		BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
-		if (!bta.isEnabled())
+		if (!bta.isEnabled()) {
 			return false;
+		}
 
 		Set<BluetoothDevice> bondedDevices = bta.getBondedDevices();
 		for (BluetoothDevice device : bondedDevices) {
-			if (!device.getAddress().equals(mDeviceAddr))
+			if (!device.getAddress().equals(mDeviceAddr)) {
 				continue;
+			}
 
 			try {
 				BluetoothSocket socket = device.createInsecureRfcommSocketToServiceRecord(UUID_CTRL);
@@ -84,8 +86,9 @@ public class CmdChannelBT extends CmdChannel {
 	@Override
 	protected void writeToChannel(byte[] buffer) {
 		try {
-			if (mOutputStream != null)
+			if (mOutputStream != null) {
 				mOutputStream.write(buffer);
+			}
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage());
 		}

@@ -99,9 +99,10 @@ public class CmdChannelBLE extends CmdChannel {
             }
         }
 
+        @Override
         public void onCharacteristicWrite(BluetoothGatt gatt,
-                BluetoothGattCharacteristic characteristic,
-                int status) {
+                                          BluetoothGattCharacteristic characteristic,
+                                          int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 Log.e(TAG, "onCharacteristicWrite " + characteristic.getValue().length);
                 // check if there are more bytes to send
@@ -112,8 +113,9 @@ public class CmdChannelBLE extends CmdChannel {
                             mOutgoingIndex, mOutgoingIndex + Math.min(bytesLeft, mMtuSize)));
                     mBluetoothGatt.writeCharacteristic(mGattOutput);
                 }
-            } else
+            } else {
                 Log.e(TAG, "onCharacteristicWrite failure " + status);
+            }
         }
 
         @Override
@@ -173,10 +175,12 @@ public class CmdChannelBLE extends CmdChannel {
          * connection then reconnect again. 
          */
         mScheduledFuture = worker.schedule(new Runnable() {
+            @Override
             public void run() {
                 disConnect();                
                 mBluetoothGatt = mBluetoothDevice.connectGatt(mContext, false, mGattCallback);
                 mScheduledFuture = worker.schedule(new Runnable() {
+                    @Override
                     public void run() {
                         disConnect();
                         mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_ERROR_CONNECT, null);
@@ -237,10 +241,12 @@ public class CmdChannelBLE extends CmdChannel {
                 List<BluetoothGattCharacteristic> characs = service.getCharacteristics();
                 for (BluetoothGattCharacteristic charac : characs) {
                     Log.e(TAG, "characteristic0: " + charac.getUuid().toString());
-                    if (charac.getUuid().equals(AMBA_CHARACTERISTIC_OUTPUT_0))
+                    if (charac.getUuid().equals(AMBA_CHARACTERISTIC_OUTPUT_0)) {
                         mGattOutput = charac;
-                    if (charac.getUuid().equals(AMBA_CHARACTERISTIC_INPUT_0))
+                    }
+                    if (charac.getUuid().equals(AMBA_CHARACTERISTIC_INPUT_0)) {
                         mGattInput = charac;
+                    }
                 }
                 mMtuSize = 509;
                 break;
@@ -249,10 +255,12 @@ public class CmdChannelBLE extends CmdChannel {
                 List<BluetoothGattCharacteristic> characs = service.getCharacteristics();
                 for (BluetoothGattCharacteristic charac : characs) {
                     Log.e(TAG, "characteristic1: " + charac.getUuid().toString());
-                    if (charac.getUuid().equals(AMBA_CHARACTERISTIC_OUTPUT_1))
+                    if (charac.getUuid().equals(AMBA_CHARACTERISTIC_OUTPUT_1)) {
                         mGattOutput = charac;
-                    if (charac.getUuid().equals(AMBA_CHARACTERISTIC_INPUT_1))
+                    }
+                    if (charac.getUuid().equals(AMBA_CHARACTERISTIC_INPUT_1)) {
                         mGattInput = charac;
+                    }
                 }
                 mMtuSize = 18;
                 break;
@@ -264,6 +272,7 @@ public class CmdChannelBLE extends CmdChannel {
         }
     }
     
+    @Override
     protected void writeToChannel(byte[] buffer) {
         //byte[] fake = new byte[32];
         //mBluetoothGatt.readCharacteristic(mGattOutput);
@@ -278,6 +287,7 @@ public class CmdChannelBLE extends CmdChannel {
         }
     }
     
+    @Override
     protected String readFromChannel() {
         try {
             return new String(mNotificationQueue.take());

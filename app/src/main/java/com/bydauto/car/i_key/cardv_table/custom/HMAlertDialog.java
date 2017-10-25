@@ -45,8 +45,7 @@ public class HMAlertDialog extends Dialog implements DialogInterface {
         /**
          * Set the Dialog message from resource
          *
-         * @param title
-         * @return
+         *
          */
         public Builder setMessage(int message) {
             this.message = (String) context.getText(message);

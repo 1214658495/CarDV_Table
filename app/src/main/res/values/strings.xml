@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">CarDV_Table</string>
+    <string name="app_name">行车记录仪</string>
     <string name="invalid_connect_error">The selected connectivity type is not supported"</string>
 </resources>

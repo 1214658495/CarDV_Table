@@ -46,6 +46,10 @@ public interface IChannelListener {
 	final static int CMD_CHANNEL_EVENT_START_RECORD = 0x2E;
 	final static int CMD_CHANNEL_EVENT_STOP_RECORD = 0x2F;
 	final static int CMD_CHANNEL_EVENT_GET_SINGLE_SETTING = 0x30;
+//	我添加的协议
+	final static int CMD_CHANNEL_EVENT_GET_THUMB_TEST = 0x31;
+	final static int CMD_CHANNEL_EVENT_THUMB_CHECK = 0x32;
+	final static int CMD_CHANNEL_EVENT_THUMB_CHECKSIZE = 0x33;
 
 	final static int CMD_CHANNEL_ERROR_TIMEOUT = 0x80;
 	final static int CMD_CHANNEL_ERROR_INVALID_TOKEN = 0x81;

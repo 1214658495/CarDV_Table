@@ -1,6 +1,7 @@
 package com.bydauto.car.i_key.cardv_table;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -262,8 +263,8 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
         LogcatHelper.getInstance(this).start();
         Log.e(TAG, "onCreate");
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
-                .LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
+//                .LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
 
@@ -276,7 +277,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
         mPref = getPreferences(Context.MODE_PRIVATE);
         getPrefs(mPref);
 
-        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mRemoteCam = new RemoteCam(this);
         mRemoteCam.setChannelListener(this).setConnectivity(mConnectivityType).setWifiInfo
                 (wifiManager.getConnectionInfo().getSSID().replace("\"", ""), getWifiIpAddr());
@@ -295,7 +296,19 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
     protected void onResume() {
         super.onResume();
 //        mRemoteCam.startSession();
+        ActivityManager activityManager = (ActivityManager)      getSystemService(ACTIVITY_SERVICE);
+
+        int largeMemoryClass = activityManager.getLargeMemoryClass();
+        int memoryClass = activityManager.getMemoryClass();
+
+        ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
+//        activityManager.getMemoryInfo(info);
         Log.e(TAG, "onResume");
+        Log.e(TAG, "^^^^^largeMemoryClass = " + largeMemoryClass);
+        Log.e(TAG, "^^^^^memoryClass = " + memoryClass);
+//        Log.e(TAG, "^^^^^getMemoryInfo(info) = " + info.toString());
+        int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        Log.e("TAG", "Max memory is " + maxMemory + "KB");
     }
 
     @Override
@@ -387,7 +400,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
     }
 
     private String getWifiIpAddr() {
-        WifiManager mgr = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiManager mgr = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         int ip = mgr.getConnectionInfo().getIpAddress();
         return String.format("%d.%d.%d.%d", (ip & 0xFF), (ip >> 8 & 0xFF), (ip >> 16 & 0xFF), ip
                 >> 24);
@@ -654,7 +667,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
         mCurrentFrag = mVideoFrag;
     }
 
-//    应该未使用如下函数 即未用到PhotoFragment
+    //    应该未使用如下函数 即未用到PhotoFragment
     private void showPhotoFrag() {
 
 
@@ -714,7 +727,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
 
         mVideoDetailFrag = new VideoDetailFragment(mPlaylist, model, mRemoteCam.videoFolder());
         getFragmentManager().beginTransaction().setCustomAnimations(R.animator
-                .slide_fragment_horizontal_left_in,
+                        .slide_fragment_horizontal_left_in,
 
                 R.animator.slide_fragment_horizontal_left_out,
 
@@ -732,7 +745,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
 
         mVideoDetailFrag = new VideoDetailFragment(mPlaylist, model, mRemoteCam.eventFolder());
         getFragmentManager().beginTransaction().setCustomAnimations(R.animator
-                .slide_fragment_horizontal_left_in,
+                        .slide_fragment_horizontal_left_in,
 
                 R.animator.slide_fragment_horizontal_left_out,
 
@@ -747,11 +760,11 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
     }
 
     public void showPhotoDetailFrag(Model model) {
-        Log.e(TAG, "showPhotoDetailFullFrag: 1111  file  "+ model);
+        Log.e(TAG, "showPhotoDetailFullFrag: 1111  file  " + model);
 
         mPhotoDetailFrag = new PhotoDetailFragment(mPlaylist, model, mRemoteCam.photoFolder());
         getFragmentManager().beginTransaction().setCustomAnimations(R.animator
-                .slide_fragment_horizontal_left_in,
+                        .slide_fragment_horizontal_left_in,
 
                 R.animator.slide_fragment_horizontal_left_out,
 
@@ -777,7 +790,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
     }
 
     public void showPhotoDetailFullFrag(Model file) {
-        Log.e(TAG, "showPhotoDetailFullFrag: 1111  file  "+ file);
+        Log.e(TAG, "showPhotoDetailFullFrag: 1111  file  " + file);
         mPhotoDetailFullFrag = new PhotoDetailFullFragment(mPlaylist, file, mRemoteCam
                 .photoFolder());
         getFragmentManager().beginTransaction().setTransition(FragmentTransaction
@@ -787,9 +800,11 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
     }
 
     public void showDeviceInfo() {
-        if (mDeviceInfoFrag == null) mDeviceInfoFrag = new DeviceInfoFragment();
+        if (mDeviceInfoFrag == null) {
+            mDeviceInfoFrag = new DeviceInfoFragment();
+        }
         getFragmentManager().beginTransaction().setCustomAnimations(R.animator
-                .slide_fragment_horizontal_left_in,
+                        .slide_fragment_horizontal_left_in,
 
                 R.animator.slide_fragment_horizontal_left_out,
 
@@ -809,7 +824,9 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
     }
 
     public void removeFragment(Fragment frag) {
-        if (frag != null) getFragmentManager().beginTransaction().remove(frag).commit();
+        if (frag != null) {
+            getFragmentManager().beginTransaction().remove(frag).commit();
+        }
     }
 
     public void dismissDialog() {
@@ -994,6 +1011,8 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
 //                        .OnClickListener() {
 //                    @Override
 //                    public void onClick(DialogInterface dialog, int which) {
+                mRemoteCam.stopRecord();
+//                mRecordFrag.stopRecord();
                 mRemoteCam.formatSD((String) param);
 //                    }
 //                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -1035,6 +1054,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
                 mRemoteCam.setMediaAttribute((String) param, 1);
                 break;
             case IFragmentListener.ACTION_FS_GET_THUMB:
+                Log.e(TAG, "onFragmentAction: 主函数收到监听处理ACTION_FS_GET_THUMB");
                 mRemoteCam.getThumb((String) param);
                 break;
             case IFragmentListener.ACTION_FS_VIEW:
@@ -1102,6 +1122,8 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
             case IFragmentListener.ACTION_DEFAULT_SETTING:
                 mRemoteCam.defaultSetting();
                 break;
+            default:
+                break;
         }
     }
 
@@ -1120,7 +1142,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
 //                mGetFileName = mRemoteCam.photoFolder() +
 //                        "/M_photo/" + selectedFiles.get(hadDownloadedFlag).getName();
                 mGetFileName = mRemoteCam.photoFolder() + "/" +
-                         selectedFiles.get(hadDownloadedFlag).getName();//删除二级文件
+                        selectedFiles.get(hadDownloadedFlag).getName();//删除二级文件
             }
             String filename = Environment.getExternalStorageDirectory() + "/行车记录仪" + mGetFileName
                     .substring(mGetFileName.lastIndexOf('/'));
@@ -1136,10 +1158,12 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
 //                        downLoadFiles();
 //                    }
 //                }, 1500);
-                handler.sendEmptyMessageDelayed(DOWNLOAD_FILES,1500);
+                handler.sendEmptyMessageDelayed(DOWNLOAD_FILES, 1500);
             }
         } else {
-            showCustomToastText("下载结束，共下载" + hadDownloadCount + "个文件", Toast.LENGTH_SHORT);
+//            showCustomToastText("下载结束，共下载" + hadDownloadCount + "个文件", Toast.LENGTH_SHORT);
+            showCustomToastText("下载结束，共下载", Toast.LENGTH_SHORT);
+
             hadDownloadedFlag = 0;
             hadDownloadCount = 0;
         }
@@ -1163,6 +1187,8 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
                     case IChannelListener.STREAM_CHANNEL_MSG:
                         handleStreamChannelEvent(type, param);
                         return;
+                    default:
+                        break;
                 }
             }
         });
@@ -1175,6 +1201,33 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
         }
 
         switch (type) {
+//第一个判断我自己添加的
+            // TODO: 2017/10/17  
+            case IChannelListener.CMD_CHANNEL_EVENT_GET_THUMB_TEST:
+                if ((boolean) param) {
+                    mVideoFrag.isYuvDownload = true;
+                } else {
+                    mVideoFrag.isYuvDownload = false;
+                }
+                Log.e(TAG, "handleCmdChannelEvent: main EVENT_GET_THUMB");
+
+                break;
+            case IChannelListener.CMD_CHANNEL_EVENT_THUMB_CHECKSIZE:
+                if ((boolean) param) {
+                    mVideoFrag.isThumbCheckSize = true;
+                } else {
+                    mVideoFrag.isThumbCheckSize = false;
+                }
+                Log.e(TAG, "handleCmdChannelEvent: main EVENT_THUMB_CHECK");
+                break;
+            case IChannelListener.CMD_CHANNEL_EVENT_THUMB_CHECK:
+                if ((boolean) param) {
+                    mVideoFrag.isThumbChecked = true;
+                } else {
+                    mVideoFrag.isThumbChecked = false;
+                }
+                Log.e(TAG, "handleCmdChannelEvent: main EVENT_THUMB_CHECK");
+                break;
             case IChannelListener.CMD_CHANNEL_EVENT_GET_SINGLE_SETTING:
                 String setting = null;
                 String option = null;
@@ -1347,6 +1400,8 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
             case IChannelListener.CMD_CHANNEL_EVENT_SET_SETTING:
 //                dismissDialog();
                 break;
+            default:
+                break;
         }
     }
 
@@ -1382,6 +1437,8 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
             case IChannelListener.CMD_CHANNEL_ERROR_WAKEUP:
                 showAlertDialog("Error", "Cannot wakeup the Remote Camera");
                 break;
+            default:
+                break;
         }
     }
 
@@ -1397,8 +1454,6 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
 //                });
                 showCustomDownloadProgressDialog("请稍后", "正在下载", "取消", new DialogInterface
                         .OnClickListener() {
-
-
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dismissDialog();
@@ -1435,7 +1490,7 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
                 break;
 
             case IChannelListener.DATA_CHANNEL_EVENT_PUT_MD5:
-                showWaitDialog("Calculating MD5");
+                showWaitDialog("Calculating mMD5");
                 break;
             case IChannelListener.DATA_CHANNEL_EVENT_PUT_START:
 
@@ -1451,6 +1506,8 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
             case IChannelListener.DATA_CHANNEL_EVENT_CANCLE_XFER:
                 dismissDialog();
 
+                break;
+            default:
                 break;
         }
     }
@@ -1468,6 +1525,8 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
             case IChannelListener.STREAM_CHANNEL_ERROR_PLAYING:
                 mRecordFrag.resetStreamView();
                 showAlertDialog("Error", "Cannot connect to LiveView!");
+                break;
+            default:
                 break;
 
         }

@@ -1024,7 +1024,6 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
                 isYuvDownload = false;
                 Log.e(TAG, "downloadYuvBitmap: 接收到数据");
                 bitmap = mRemoteCam.getDataChannel().rxYuvStream2();
-                Log.e(TAG, "downloadYuvBitmap: bitmap" + bitmap);
                 return bitmap;
             }
 

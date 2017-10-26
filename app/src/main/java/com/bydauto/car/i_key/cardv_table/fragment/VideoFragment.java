@@ -885,7 +885,6 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
                 Bitmap bitmap = null;
                 HttpURLConnection con = null;
                 try {
-//                    Log.e(TAG, "downloadBitmap: 1111 tryHttpURLConnection");
                     URL url = new URL(imageUrl);
                     con = (HttpURLConnection) url.openConnection();
                     con.setConnectTimeout(5 * 1000);
@@ -1016,7 +1015,7 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
             }
 
             private Bitmap downloadYuvBitmap(String param) {
-                Log.e(TAG, "-----T--downloadYuvBitmap: 开始");
+                Log.e(TAG, "downloadYuvBitmap: 开始");
                 Bitmap bitmap = null;
                 mRemoteCam.getThumb(param);
                 while (!isYuvDownload) {

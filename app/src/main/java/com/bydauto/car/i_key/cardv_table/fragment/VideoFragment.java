@@ -544,20 +544,20 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
                     return bitmap.getByteCount();
                 }
             };
-//            loadBitmaps(0, mArrayList.size());
+            loadBitmaps(0, mArrayList.size());
 
-            try {
-                // 获取图片缓存路径
-                File cacheDir = getDiskCacheDir(context, "thumb");
-                if (!cacheDir.exists()) {
-                    cacheDir.mkdirs();
-                }
-                // 创建DiskLruCache实例，初始化缓存数据
-                mDiskLruCache = DiskLruCache
-                        .open(cacheDir, getAppVersion(context), 1, 10 * 1024 * 1024);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                // 获取图片缓存路径
+//                File cacheDir = getDiskCacheDir(context, "thumb");
+//                if (!cacheDir.exists()) {
+//                    cacheDir.mkdirs();
+//                }
+//                // 创建DiskLruCache实例，初始化缓存数据
+//                mDiskLruCache = DiskLruCache
+//                        .open(cacheDir, getAppVersion(context), 1, 10 * 1024 * 1024);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
         }
 
@@ -644,7 +644,7 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
             }
             photo.setTag(url);
             setImageView(url, photo);
-            loadBitmaps(photo, url);
+//            loadBitmaps(photo, url);
             return view;
         }
 
@@ -668,99 +668,99 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
         }
 
 
-        public void loadBitmaps(ImageView imageView, String imageUrl) {
+//        public void loadBitmaps(ImageView imageView, String imageUrl) {
+//            try {
+//                if (currentSegment == 0 || currentSegment == 1) {
+//                    Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
+//                    if (bitmap == null) {
+//                        YuvBitmapWorkerTask task1 = new YuvBitmapWorkerTask();
+//                        taskCollection1.add(task1);
+//                        task1.execute(imageUrl);
+//                    } else {
+//                        if (imageView != null && bitmap != null) {
+//                            imageView.setImageBitmap(bitmap);
+//                        }
+//                    }
+//                } else if (currentSegment == 2) {
+//                    Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
+//                    if (bitmap == null) {
+//                        BitmapWorkerTask task = new BitmapWorkerTask();
+//                        taskCollection.add(task);
+//                        task.execute(imageUrl);
+//                    } else {
+//                        if (imageView != null && bitmap != null) {
+//                            imageView.setImageBitmap(bitmap);
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+
+        private void loadBitmaps(int firstVisibleItem, int visibleItemCount) {
             try {
-                if (currentSegment == 0 || currentSegment == 1) {
-                    Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-                    if (bitmap == null) {
-                        YuvBitmapWorkerTask task1 = new YuvBitmapWorkerTask();
-                        taskCollection1.add(task1);
-                        task1.execute(imageUrl);
-                    } else {
-                        if (imageView != null && bitmap != null) {
-                            imageView.setImageBitmap(bitmap);
+                for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
+                    Model model = mArrayList.get(i);
+                    String imageUrl;
+                    if (currentSegment == 0) {
+                        //                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.videoFolder().substring(4) +
+                        //                                "/Thumb/" + model.getThumbFileName();
+                        //                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.videoFolder().substring(4) + "/" + model.getThumbFileName();
+                        imageUrl = mRemoteCam.videoFolder() + "/" + model.getThumbFileName();
+                        Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
+                        if (bitmap == null) {
+                            YuvBitmapWorkerTask task1 = new YuvBitmapWorkerTask();
+                            taskCollection1.add(task1);
+                            task1.execute(imageUrl);
+                            //                            task1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imageUrl);
+                        } else {
+                            ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
+                            if (imageView != null && bitmap != null) {
+                                imageView.setImageBitmap(bitmap);
+                            }
                         }
-                    }
-                } else if (currentSegment == 2) {
-                    Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-                    if (bitmap == null) {
-                        BitmapWorkerTask task = new BitmapWorkerTask();
-                        taskCollection.add(task);
-                        task.execute(imageUrl);
+                    } else if (currentSegment == 1) {
+                        //                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.eventFolder().substring(4) +
+                        //                                "/Thumb/" + model.getThumbFileName();
+                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.eventFolder().substring(4) + "/" + model.getThumbFileName();
                     } else {
-                        if (imageView != null && bitmap != null) {
-                            imageView.setImageBitmap(bitmap);
+                        //                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) +
+                        //                                "/Thumb/" + model.getThumbFileName();
+                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) + "/" + model.getThumbFileName();  //删除二级文件夹
+                        //                        如下为添加的
+                        Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
+                        if (bitmap == null) {
+                            BitmapWorkerTask task = new BitmapWorkerTask();
+                            taskCollection.add(task);
+                            task.execute(imageUrl);
+                        } else {
+                            ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
+                            if (imageView != null && bitmap != null) {
+                                imageView.setImageBitmap(bitmap);
+                            }
                         }
+
                     }
+                    /*测试需要被注释了
+                                        Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
+                                        if (bitmap == null) {
+                                            BitmapWorkerTask task = new BitmapWorkerTask();
+                                            taskCollection.add(task);
+                                            task.execute(imageUrl);
+                                        } else {
+                                            ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
+                                            if (imageView != null && bitmap != null) {
+                                               imageView.setImageBitmap(bitmap);
+                                           }
+                                       }*/
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        /**
-         * private void loadBitmaps(int firstVisibleItem, int visibleItemCount) {
-         * try {
-         * for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
-         * Model model = mArrayList.get(i);
-         * String imageUrl;
-         * if (currentSegment == 0) {
-         * //                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.videoFolder().substring(4) +
-         * //                                "/Thumb/" + model.getThumbFileName();
-         * //                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.videoFolder().substring(4) + "/" + model.getThumbFileName();
-         * imageUrl = mRemoteCam.videoFolder() + "/" + model.getThumbFileName();
-         * Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-         * if (bitmap == null) {
-         * YuvBitmapWorkerTask task1 = new YuvBitmapWorkerTask();
-         * taskCollection1.add(task1);
-         * task1.execute(imageUrl);
-         * //                            task1.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, imageUrl);
-         * } else {
-         * ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
-         * if (imageView != null && bitmap != null) {
-         * imageView.setImageBitmap(bitmap);
-         * }
-         * }
-         * } else if (currentSegment == 1) {
-         * //                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.eventFolder().substring(4) +
-         * //                                "/Thumb/" + model.getThumbFileName();
-         * imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.eventFolder().substring(4) + "/" + model.getThumbFileName();
-         * } else {
-         * //                        imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) +
-         * //                                "/Thumb/" + model.getThumbFileName();
-         * imageUrl = "http://" + ServerConfig.HOST + mRemoteCam.photoFolder().substring(4) + "/" + model.getThumbFileName();  //删除二级文件夹
-         * //                        如下为添加的
-         * Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-         * if (bitmap == null) {
-         * BitmapWorkerTask task = new BitmapWorkerTask();
-         * taskCollection.add(task);
-         * task.execute(imageUrl);
-         * } else {
-         * ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
-         * if (imageView != null && bitmap != null) {
-         * imageView.setImageBitmap(bitmap);
-         * }
-         * }
-         * <p>
-         * }
-         * //测试需要被注释了
-         * //                    Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-         * //                    if (bitmap == null) {
-         * //                        BitmapWorkerTask task = new BitmapWorkerTask();
-         * //                        taskCollection.add(task);
-         * //                        task.execute(imageUrl);
-         * //                    } else {
-         * //                        ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
-         * //                        if (imageView != null && bitmap != null) {
-         * //                            imageView.setImageBitmap(bitmap);
-         * //                        }
-         * //                    }
-         * }
-         * } catch (Exception e) {
-         * e.printStackTrace();
-         * }
-         * }
-         */
 
         public void cancelAllTasks() {
             if (taskCollection != null) {

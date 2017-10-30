@@ -184,7 +184,7 @@
             android:layout_toStartOf="@id/btn_multi_delete"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/x82"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:src="@mipmap/bg_dialog_button"/>
     </RelativeLayout>
 </LinearLayout>

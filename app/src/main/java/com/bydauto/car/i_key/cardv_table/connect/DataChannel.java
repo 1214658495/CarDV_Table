@@ -191,14 +191,14 @@ public class DataChannel {
     private void rxYUY2Stream(String dstPath, int size, String md5) {
         int total = 0;
         int prev = 0;
-        MessageDigest digest;
+//        MessageDigest digest;
         try {
             byte[] buffer = new byte[size];
             Log.e(TAG, "rxYUY2Stream: size:-----" + size);
             FileOutputStream out = new FileOutputStream(dstPath);
 
             int bytes;
-            digest = MessageDigest.getInstance("MD5");
+//            digest = MessageDigest.getInstance("MD5");
 //            mListener.onChannelEvent(IChannelListener.DATA_CHANNEL_EVENT_GET_START, dstPath);
             while (total < size) {
                 try {
@@ -210,13 +210,13 @@ public class DataChannel {
                     }
                     Log.e(TAG, "rxYUY2Stream: bytes:-----" + bytes);
                     if (bytes == size) {
-                        digest.update(buffer, 0, bytes);
-                        BigInteger bigInt = new BigInteger(1, digest.digest());
-                        String bitIntString = "00" + bigInt.toString(16);
-                        String bitIntString1 = bitIntString.substring(bitIntString.length() - 32);
-                        Log.e(TAG, "rxYUY2Stream: bigInt.toString(16) = " + bigInt.toString(16));
-                        Log.e(TAG, "rxYUY2Stream: bitIntString1       = " + bitIntString1);
-                        Log.e(TAG, "rxYUY2Stream: 原md5 =               " + md5);
+//                        digest.update(buffer, 0, bytes);
+//                        BigInteger bigInt = new BigInteger(1, digest.digest());
+//                        String bitIntString = "00" + bigInt.toString(16);
+//                        String bitIntString1 = bitIntString.substring(bitIntString.length() - 32);
+//                        Log.e(TAG, "rxYUY2Stream: bigInt.toString(16) = " + bigInt.toString(16));
+//                        Log.e(TAG, "rxYUY2Stream: bitIntString1       = " + bitIntString1);
+//                        Log.e(TAG, "rxYUY2Stream: 原md5 =               " + md5);
 //                    if (bitIntString1.equals(md5)) {
                         out.write(buffer, 0, bytes);
 //                        mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_THUMB_CHECK, true);
@@ -236,35 +236,51 @@ public class DataChannel {
             }
             out.close();
             mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_GET_THUMB_TEST, true);
-        } catch (IOException | NoSuchAlgorithmException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public synchronized Bitmap rxYuvStream2() {
+    public Bitmap rxYuvStream2() {
         int total = 0;
         int width = 160;
         int height = 90;
         int size = 34560;
         Bitmap bitmap = null;
+        MessageDigest digest = null;
         try {
             byte[] yuvArray = new byte[size];
             byte[] yuvArray1 = new byte[160 * 90 * 2];
             byte[] yuvArray2 = new byte[160 * 90 * 2];
 //			FileOutputStream out = new FileOutputStream(dstPath);
             int bytes;
+            try {
+                digest = MessageDigest.getInstance("MD5");
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
 
 //			mListener.onChannelEvent(IChannelListener.DATA_CHANNEL_EVENT_GET_START, dstPath);
             while (total < size) {
                 try {
                     bytes = mInputStream.read(yuvArray, total, size - total);
+                    Log.e(TAG, "rxYuvStream2: bytes = " + bytes);
                     if (bytes > 0) {
                         total += bytes;
                     } else {
+                        Log.e(TAG, "rxYuvStream2: bytes <= 0");
                         break;
                     }
                     Log.e(TAG, "rxYuvStream2: mInputStream.read");
-                    if (bytes == size) {
+                    if (total == size) {
+                        digest.update(yuvArray, 0, bytes);
+                        BigInteger bigInt = new BigInteger(1, digest.digest());
+                        String bitIntString = "00" + bigInt.toString(16);
+                        String bitIntString1 = bitIntString.substring(bitIntString.length() - 32);
+                        Log.e(TAG, "rxYUY2Stream: bigInt.toString(16) = " + bigInt.toString(16));
+                        Log.e(TAG, "rxYUY2Stream: bitIntString1       = " + bitIntString1);
+//                        Log.e(TAG, "rxYUY2Stream: 原md5 =               " + md5);
                         for (int i = 0; i < 90 * 2; i++) {
                             System.arraycopy(yuvArray, 192 * i, yuvArray1, 160 * i, 160);
                         }

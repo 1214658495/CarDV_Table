@@ -1,7 +1,71 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
+//apply plugin: 'android-apt'
 
 android {
+//    flavorDimensions "sourceSet", "usage"
+//
+//    productFlavors {
+//        free {
+//            dimension "sourceSet"
+//            // 従来のflavorの設定を記述
+//        }
+//
+//        paid {
+//            dimension "sourceSet"
+//            // 従来のflavorの設定を記述
+//        }
+//
+//        product {
+//            dimension "usage"
+//            minSdkVersion 17
+//        }
+//
+////        dev {
+////            dimension "usage"
+////            // minSdkVersionを21に設定するとmultidexでのビルドが速くなる
+////            minSdkVersion 17
+////        }
+////
+//        all64{
+//            minSdkVersion 21
+//        }
+////
+//        all32{
+//            minSdkVersion 19
+//        }
+//    }
+
+//    flavorDimensions "version"
+//
+//    productFlavors {
+//        freeVersion {
+//            dimension "version"
+//
+//        }
+//
+//        paidVersion {
+//            dimension "version"
+//        }
+//    }
+
+//    flavorDimensions "all32"
+//
+//    productFlavors {
+//        free {
+//            // Assigns this product flavor to the "tier" flavor dimension. Specifying
+//            // this property is optional if you are using only one dimension.
+//            dimension "all32"
+//        }
+//
+//        paid {
+//            dimension "all32"
+//        }
+//
+//
+//    }
+
+
+//    flavorDimensions "default"
 //    signingConfigs {
 ////        config {
 ////            keyAlias 'china'
@@ -21,11 +85,13 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
+//        flavorDimensions "versionCode"
+        flavorDimensions "default"
     }
     buildTypes {
         release {
 //            debuggable true
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -45,10 +111,11 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     compile 'com.squareup:otto:1.3.8'
     compile project(':ijkplayer-java')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    all32Compile project(':ijkplayer-armv7a')
-    compile 'com.jakewharton:butterknife:8.5.1'
-    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.android.support:appcompat-v7:27.0.0'
+//    all32Compile project(':ijkplayer-armv7a')
+    compile project(':ijkplayer-armv7a')
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     compile 'com.jakewharton:disklrucache:2.0.2'
 }

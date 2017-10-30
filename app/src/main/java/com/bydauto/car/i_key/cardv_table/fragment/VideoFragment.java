@@ -98,6 +98,7 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
     public boolean isThumbChecked = false;
 
     private List<Model> FileList = new ArrayList<Model>(); //记录已选择的Model
+    public boolean isThumbGetFail = false;
 
     public VideoFragment() {
         reset();
@@ -1019,6 +1020,11 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
                 Bitmap bitmap = null;
                 mRemoteCam.getThumb(param);
                 while (!isYuvDownload) {
+                    if (isThumbGetFail) {
+                        // TODO: 2017/10/26 loadfail how to deal
+                        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                    }
+                    isThumbGetFail = false;
                 }
                 isYuvDownload = false;
                 Log.e(TAG, "downloadYuvBitmap: 接收到数据");
@@ -1163,7 +1169,8 @@ public class VideoFragment extends Fragment implements OnItemClickListener, OnRe
         if (!isMultiChoose) {
             if (null != mListener) {
                 Model item = (Model) parent.getItemAtPosition(position);
-                Log.e(TAG, "onItemClick: item：" + item);//item :com.bydauto.car.i_key.cardv_table.Model@1f58fcda
+                //item :com.bydauto.car.i_key.cardv_table.Model@1f58fcda
+                Log.e(TAG, "onItemClick: item：" + item);
                 filePath = mPWD + item.getName();
                 if (currentSegment == 0) {
                     mListener.onFragmentAction(IFragmentListener.ACTION_VIDEO_DETAIL, item);

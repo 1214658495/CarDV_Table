@@ -1228,6 +1228,14 @@ public class MainActivity extends Activity implements OnClickListener, IFragment
                 }
                 Log.e(TAG, "handleCmdChannelEvent: main EVENT_THUMB_CHECK");
                 break;
+            case IChannelListener.CMD_CHANNEL_EVENT_GET_THUMB_FAIL:
+                if ((boolean) param) {
+                    mVideoFrag.isThumbGetFail = true;
+                } else {
+                    mVideoFrag.isThumbGetFail = false;
+                }
+                Log.e(TAG, "handleCmdChannelEvent: main EVENT_THUMB_CHECK");
+                break;
             case IChannelListener.CMD_CHANNEL_EVENT_GET_SINGLE_SETTING:
                 String setting = null;
                 String option = null;

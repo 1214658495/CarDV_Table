@@ -270,7 +270,7 @@ public class RecordFragment extends Fragment implements OnClickListener, IMediaP
     public void startStreamView() {
 
         isRecIcon.setVisibility(View.VISIBLE);
-//        showTimer();
+        showTimer();
     }
 
     public void stopStreamView() {

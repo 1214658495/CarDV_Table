@@ -704,8 +704,10 @@ public class RemoteCam implements IChannelListener {
                 parser = (JSONObject) param;
                 try {
                     if (parser.getInt("rval") != 0) {
-                        mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_SHOW_ALERT,
-                                "GET_THUMB failed");
+                        /*mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_SHOW_ALERT,
+                                "GET_THUMB failed");*/
+                        mListener.onChannelEvent(IChannelListener.CMD_CHANNEL_EVENT_GET_THUMB_FAIL,true);
+
                         break;
                     }
                     else {
